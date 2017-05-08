@@ -1,0 +1,9 @@
+{
+  "Parameters": {
+    "Environment": "_YOUR_ENVIRONMENT_",
+    "Domain": "_YOUR_DOMAIN_",
+    "Stage": "_YOUR_STAGE_",
+    "ArtifactBucket": "_YOUR_ARTIFACT_BUCKET_",
+    "TableName": "todos-table"
+  }
+}

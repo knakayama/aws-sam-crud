@@ -1,0 +1,5 @@
+params/*
+!params/param.sample.json
+/tmp/
+node_modules/
+/.sam/

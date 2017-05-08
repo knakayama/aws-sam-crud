@@ -1,0 +1,171 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM CRUD Main Stack
+
+Parameters:
+  Environment:
+    Type: String
+  ArtifactBucket:
+    Type: String
+  TableName:
+    Type: String
+  Stage:
+    Type: String
+
+Resources:
+  TodosTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  Api:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Stage
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: !Sub s3://${ArtifactBucket}/${Environment}/swagger.yml
+
+  Create:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/handlers/dynamodb
+      Handler: index.create
+      Runtime: nodejs6.10
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref TodosTable
+      Policies:
+        - Version: 2012-10-17
+          Statement:
+            - Sid: DynamoDBCreate
+              Effect: Allow
+              Action: dynamodb:PutItem
+              Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${TodosTable}
+      Events:
+        Create:
+          Type: Api
+          Properties:
+            Path: /todos
+            Method: post
+            RestApiId: !Ref Api
+
+  List:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/handlers/dynamodb
+      Handler: index.list
+      Runtime: nodejs6.10
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref TodosTable
+      Policies:
+        - Version: 2012-10-17
+          Statement:
+            - Sid: DynamoDBList
+              Effect: Allow
+              Action: dynamodb:Scan
+              Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${TodosTable}
+      Events:
+        List:
+          Type: Api
+          Properties:
+            Path: /todos
+            Method: get
+            RestApiId: !Ref Api
+
+  Get:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/handlers/dynamodb
+      Handler: index.get
+      Runtime: nodejs6.10
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref TodosTable
+      Policies:
+        - Version: 2012-10-17
+          Statement:
+            - Sid: DynamoDBGet
+              Effect: Allow
+              Action: dynamodb:GetItem
+              Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${TodosTable}
+      Events:
+        Get:
+          Type: Api
+          Properties:
+            Path: /todos/{id}
+            Method: get
+            RestApiId: !Ref Api
+
+  Update:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/handlers/dynamodb
+      Handler: index.update
+      Runtime: nodejs6.10
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref TodosTable
+      Policies:
+        - Version: 2012-10-17
+          Statement:
+            - Sid: DynamoDBUpdate
+              Effect: Allow
+              Action: dynamodb:PutItem
+              Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${TodosTable}
+      Events:
+        Update:
+          Type: Api
+          Properties:
+            Path: /todos/{id}
+            Method: put
+            RestApiId: !Ref Api
+
+  Delete:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/handlers/dynamodb
+      Handler: index.delete
+      Runtime: nodejs6.10
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref TodosTable
+      Policies:
+        - Version: 2012-10-17
+          Statement:
+            - Sid: DynamoDBDelete
+              Effect: Allow
+              Action: dynamodb:DeleteItem
+              Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${TodosTable}
+      Events:
+        Delete:
+          Type: Api
+          Properties:
+            Path: /todos/{id}
+            Method: delete
+            RestApiId: !Ref Api
+
+Outputs:
+  ApiUrl:
+    Value: !Sub https://${Api}.execute-api.${AWS::Region}.amazonaws.com/${Stage}
+  TableName:
+    Value: !Ref TodosTable
+  Get:
+    Value: !Ref Get
+  Create:
+    Value: !Ref Create
+  Delete:
+    Value: !Ref Delete
+  List:
+    Value: !Ref List
+  Update:
+    Value: !Ref Update

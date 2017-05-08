@@ -1,0 +1,41 @@
+{
+  "name": "aws-sam-crud",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "test": "./bin/test.sh $environment",
+    "tmp-dir": "mkdir -p .sam",
+    "package": "./bin/package.sh $npm_package_name $environment",
+    "prepackage": "npm run tmp-dir",
+    "package:handlers": "for handler in src/handlers/*; do cd $handler && npm install; cd ../../..; done",
+    "deploy": "./bin/deploy.sh $npm_package_name $environment",
+    "predeploy": "npm run tmp-dir",
+    "deploy:no-execute-change-set": "./bin/deploy.sh $npm_package_name $environment",
+    "predeploy:no-execute-change-set": "npm run tmp-dir",
+    "execute-change-set": "./bin/execute-change-set.sh $npm_package_name $environment",
+    "invoke:list": "./bin/invoke.sh List $npm_package_name $environment",
+    "validates": "./bin/validates.sh",
+    "describe:change-set": "./bin/describe-change-set.sh $npm_package_name $environment",
+    "describe:outputs": "./bin/describe-outputs.sh $npm_package_name $environment",
+    "localstack:run": "./bin/localstack-run.sh",
+    "localstack:dynamodb": "./bin/localstack-dynamodb.sh"
+  },
+  "author": "knakayama <knakayama.sh@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "mkdirp": "^0.5.1"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.49.0",
+    "babel-eslint": "^7.2.3",
+    "chai": "^3.5.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "mocha": "^3.3.0",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0"
+  }
+}
