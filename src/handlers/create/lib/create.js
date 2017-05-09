@@ -14,7 +14,7 @@ class CreateClient {
       ? new AWS.DynamoDB.DocumentClient(
         {
           region: process.env.DEFAULT_REGION,
-          endpoint: process.env.HOSTNAME,
+          endpoint: `http://${process.env.HOSTNAME}`,
         })
       : new AWS.DynamoDB.DocumentClient();
   }
