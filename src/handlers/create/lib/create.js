@@ -56,7 +56,7 @@ class CreateClient {
         resolve(response);
       }).catch((err) => {
         const response = {
-          statusCode: 200,
+          statusCode: 500,
           body: JSON.stringify(err),
         };
         reject(response);
