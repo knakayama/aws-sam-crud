@@ -156,7 +156,7 @@ Resources:
 
 Outputs:
   ApiUrl:
-    Value: !Sub https://${Api}.execute-api.${AWS::Region}.amazonaws.com/${Stage}
+    Value: !Sub https://${Api}.execute-api.${AWS::Region}.amazonaws.com/${Stage}/todos
   TableName:
     Value: !Ref TodosTable
   Get:
