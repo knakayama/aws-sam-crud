@@ -7,5 +7,5 @@ opts="$(cat "params/param.$environment.json" \
   | tr '\n' ' ' \
   | awk '{print}')"
 
-env $opts ./node_modules/.bin/mocha \
+env $opts $(npm bin)/mocha \
   --timeout 5000
