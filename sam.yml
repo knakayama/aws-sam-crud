@@ -37,8 +37,8 @@ Resources:
   Create:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/handlers/dynamodb
-      Handler: index.create
+      CodeUri: src/handlers/create
+      Handler: index.handler
       Runtime: nodejs6.10
       Environment:
         Variables:
@@ -61,8 +61,8 @@ Resources:
   List:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/handlers/dynamodb
-      Handler: index.list
+      CodeUri: src/handlers/list
+      Handler: index.handler
       Runtime: nodejs6.10
       Environment:
         Variables:
@@ -85,8 +85,8 @@ Resources:
   Get:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/handlers/dynamodb
-      Handler: index.get
+      CodeUri: src/handlers/get
+      Handler: index.handler
       Runtime: nodejs6.10
       Environment:
         Variables:
@@ -109,8 +109,8 @@ Resources:
   Update:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/handlers/dynamodb
-      Handler: index.update
+      CodeUri: src/handlers/update
+      Handler: index.handler
       Runtime: nodejs6.10
       Environment:
         Variables:
@@ -133,8 +133,8 @@ Resources:
   Delete:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/handlers/dynamodb
-      Handler: index.delete
+      CodeUri: src/handlers/delete
+      Handler: index.handler
       Runtime: nodejs6.10
       Environment:
         Variables:

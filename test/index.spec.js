@@ -15,16 +15,36 @@ describe('API', () => {
         body: createdBody,
         json: true,
         resolveWithFullResponse: true,
-        timeout: 5000,
       };
 
       return rp(options)
         .then((response) => {
-          id = response.body.id;
           expect(response.statusCode).to.equal(200);
         })
         .catch((err) => {
           throw new Error(`Read call failed: ${err}`);
+        });
+    });
+  });
+
+  describe('#list', () => {
+    it('should list new Todos', () => {
+      const options = {
+        method: 'GET',
+        uri,
+        json: true,
+        resolveWithFullResponse: true,
+      };
+
+      return rp(options)
+        .then((response) => {
+          expect(response.statusCode).to.equal(200);
+          expect(response.body[0]).to.have.property('text');
+          expect(response.body[0]).to.have.property('id');
+          id = response.body[0].id;
+        })
+        .catch((err) => {
+          throw new Error(`List call failed: ${err}`);
         });
     });
   });
@@ -36,7 +56,6 @@ describe('API', () => {
         uri: `${uri}/${id}`,
         json: true,
         resolveWithFullResponse: true,
-        timeout: 5000,
       };
 
       return rp(options)
@@ -59,7 +78,25 @@ describe('API', () => {
         body: updatedBody,
         json: true,
         resolveWithFullResponse: true,
-        timeout: 5000,
+      };
+
+      return rp(options)
+        .then((response) => {
+          expect(response.statusCode).to.equal(200);
+        })
+        .catch((err) => {
+          throw new Error(`Update call failed: ${err}`);
+        });
+    });
+  });
+
+  describe('#get', () => {
+    it('should get a updated Todo', () => {
+      const options = {
+        method: 'GET',
+        uri: `${uri}/${id}`,
+        json: true,
+        resolveWithFullResponse: true,
       };
 
       return rp(options)
@@ -69,29 +106,7 @@ describe('API', () => {
           expect(response.body.text).to.equal(updatedBody.text);
         })
         .catch((err) => {
-          throw new Error(`Update call failed: ${err}`);
-        });
-    });
-  });
-
-  describe('#list', () => {
-    it('should list new Todos', () => {
-      const options = {
-        method: 'GET',
-        uri,
-        json: true,
-        resolveWithFullResponse: true,
-        timeout: 5000,
-      };
-
-      return rp(options)
-        .then((response) => {
-          expect(response.statusCode).to.equal(200);
-          expect(response.body[0]).to.have.property('text');
-          expect(response.body[0].text).to.equal(updatedBody.text);
-        })
-        .catch((err) => {
-          throw new Error(`List call failed: ${err}`);
+          throw new Error(`Read call failed: ${err}`);
         });
     });
   });
@@ -102,7 +117,6 @@ describe('API', () => {
         method: 'DELETE',
         uri: `${uri}/${id}`,
         resolveWithFullResponse: true,
-        timeout: 5000,
       };
 
       return rp(options)

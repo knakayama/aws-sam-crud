@@ -1,5 +1,5 @@
 {
-  "name": "dynamodb",
+  "name": "create",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,6 @@
   "author": "knakayama <knakayama.sh@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
     "uuid": "^3.0.1"
   }
