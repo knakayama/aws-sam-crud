@@ -3,7 +3,7 @@ const AWS = require('aws-sdk');
 class ListClient {
   constructor(tableName) {
     this.tableName = tableName;
-    this.documentClient = process.env.IS_LOCALSTACL
+    this.documentClient = process.env.IS_LOCALSTACK
       ? new AWS.DynamoDB.DocumentClient(
         {
           region: process.env.DEFAULT_REGION,

@@ -4,7 +4,7 @@ class GetClient {
   constructor(event, tableName) {
     this.event = event;
     this.tableName = tableName;
-    this.documentClient = process.env.IS_LOCALSTACL
+    this.documentClient = process.env.IS_LOCALSTACK
       ? new AWS.DynamoDB.DocumentClient(
         {
           region: process.env.DEFAULT_REGION,

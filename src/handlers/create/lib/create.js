@@ -10,7 +10,7 @@ class CreateClient {
     this.tableName = tableName;
     this.id = uuid();
     this.timestamp = moment().tz('Asia/Tokyo').unix();
-    this.documentClient = process.env.IS_LOCALSTACL
+    this.documentClient = process.env.IS_LOCALSTACK
       ? new AWS.DynamoDB.DocumentClient(
         {
           region: process.env.DEFAULT_REGION,

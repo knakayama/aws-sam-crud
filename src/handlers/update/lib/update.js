@@ -8,7 +8,7 @@ class UpdateClient {
     this.timestamp = moment().tz('Asia/Tokyo').unix();
     this.tableName = tableName;
     this.checked = true;
-    this.documentClient = process.env.IS_LOCALSTACL
+    this.documentClient = process.env.IS_LOCALSTACK
       ? new AWS.DynamoDB.DocumentClient(
         {
           region: process.env.DEFAULT_REGION,
